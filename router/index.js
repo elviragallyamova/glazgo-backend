@@ -3,6 +3,7 @@ const UserController = require('../controllers/user-controller')
 const VacancyController = require('../controllers/vacancy-controller')
 const {body} = require('express-validator')
 const authMiddleware = require('../middlewares/auth-middleware')
+const roleMiddleware = require('../middlewares/role-middleware')
 const CandidateController = require('../controllers/candidate-controller')
 
 const router = new Router()
@@ -11,6 +12,7 @@ const router = new Router()
 router.post('/registration',
     body('email').isEmail(),
     body('password').isLength({min: 3, max: 32}),
+    // roleMiddleware,
     UserController.registration)
 router.get('/activate/:link', UserController.activate)
 router.post('/login', UserController.login)
@@ -28,6 +30,7 @@ router.delete('/vacancies/:id', VacancyController.delete)
 // candidates
 router.post('/candidates', CandidateController.create)
 router.get('/candidates', CandidateController.getAll)
+router.get('/vacancy/:id/candidates', CandidateController.getForVacancy)
 router.get('/candidates/:id', CandidateController.getOne)
 router.put('/candidates/:id', CandidateController.update)
 router.delete('/candidates/:id', CandidateController.delete)

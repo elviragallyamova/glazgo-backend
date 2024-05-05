@@ -1,10 +1,13 @@
 const CandidateModel = require('../models/candidate-model')
+const UserModel = require('../models/user-model')
 const VacancyModel = require('../models/vacancy-model')
 const FileService = require('./file-service')
 
 class CandidateService {
     async create(candidate, link) {
         // const fileService =  FileService.saveFile(link)
+        const recruiter = await UserModel.findOne({role: 'recruiter'})
+        candidate.recruiter = recruiter._id
         const createdCandidate = await CandidateModel.create(candidate)
         return createdCandidate
     }
@@ -14,11 +17,18 @@ class CandidateService {
         return candidates
     }
 
+    async getForVacancy(id) {
+        console.log('id', id)
+        const candidates = await CandidateModel.find({vacancy: id})
+        console.log('candidates', candidates)
+        return candidates
+    }
+
     async getOne(id) {
         if (!id) {
             throw ApiError.BadRequest('Не указан id кандидата')
         }
-        const candidate = await CandidateModel.findById(id).populate({path: 'vacancy', select: 'name'}).exec()
+        const candidate = await CandidateModel.findById(id).populate({path: 'vacancy recruiter', select: 'name surname firstName patronymic'}).exec()
         return candidate
     }
 

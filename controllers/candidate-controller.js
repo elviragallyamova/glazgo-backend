@@ -23,6 +23,15 @@ class CandidateController {
         }
     }
 
+    async getForVacancy(req, res, next) {
+        try {
+            const candidates = await CandidateServise.getForVacancy(req.params.id)
+            return res.json(candidates)
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async getOne(req, res, next) {
         try {
             const candidate = await CandidateServise.getOne(req.params.id)

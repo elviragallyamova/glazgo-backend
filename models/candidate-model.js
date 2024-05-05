@@ -9,7 +9,8 @@ const candidateSchema = new Schema({
     email: {type: String},
     phone: {type: String, required: true},
     status: {type: String, enum: ['new', 'сall', 'thirdNotDialer', 'cvAtSv', 'traineeship', 'onboarding', 'rejection', 'personnelReserve'], default: 'new', required: true},
-    vacancy: {type: Schema.Types.ObjectId, ref: 'Vacancy', required: true}
+    vacancy: {type: Schema.Types.ObjectId, ref: 'Vacancy', required: true},
+    recruiter: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 })
 
 module.exports = model('Candidate', candidateSchema)

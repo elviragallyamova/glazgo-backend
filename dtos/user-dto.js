@@ -6,6 +6,7 @@ module.exports = class UserDto {
     role
     id
     isActivated
+    isCurrent
 
     constructor(model) {
         this.surname = model.surname
@@ -15,5 +16,6 @@ module.exports = class UserDto {
         this.email = model.email
         this.id = model._id
         this.isActivated = model.isActivated
+        this.isCurrent = model.isCurrent
     }
 }
